@@ -45,45 +45,52 @@ const Feedback = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-4">
-      <h1 className="text-2xl font-bold mb-4">Feedback Form</h1>
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
-          <input name="name" value={form.name} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" />
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-white via-indigo-50 to-fuchsia-50 relative overflow-hidden p-4">
+      {/* Soft blurred background shapes */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-fuchsia-300 bg-opacity-20 rounded-full filter blur-3xl z-0" />
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-indigo-200 bg-opacity-30 rounded-full filter blur-2xl z-0" />
+      <div className="relative z-10 w-full max-w-xl">
+        <h1 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-indigo-600 via-blue-400 to-fuchsia-500 bg-clip-text text-transparent drop-shadow-lg">Feedback Form</h1>
+        <form onSubmit={handleSubmit} className="bg-white/80 backdrop-blur-md shadow-2xl rounded-2xl px-8 pt-8 pb-6 mb-8 w-full border border-slate-200">
+          <div className="mb-4">
+            <label className="block text-slate-700 text-sm font-bold mb-2">Name</label>
+            <input name="name" value={form.name} onChange={handleChange} required className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 bg-white/70 shadow-sm transition" />
+          </div>
+          <div className="mb-4">
+            <label className="block text-slate-700 text-sm font-bold mb-2">Email</label>
+            <input name="email" type="email" value={form.email} onChange={handleChange} required className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 bg-white/70 shadow-sm transition" />
+          </div>
+          <div className="mb-4">
+            <label className="block text-slate-700 text-sm font-bold mb-2">Message</label>
+            <textarea name="message" value={form.message} onChange={handleChange} required className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 bg-white/70 shadow-sm transition" />
+          </div>
+          <div className="mb-6">
+            <label className="block text-slate-700 text-sm font-bold mb-2">Rating (1-5)</label>
+            <input name="rating" type="number" min="1" max="5" value={form.rating} onChange={handleChange} className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 bg-white/70 shadow-sm transition" />
+          </div>
+          <button type="submit" className="w-full py-2 rounded-full bg-gradient-to-r from-indigo-500 via-blue-400 to-fuchsia-500 text-white font-bold text-lg shadow-lg hover:scale-105 transition-transform focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 ring-offset-white" style={{ boxShadow: '0 0 12px 2px #a5b4fc, 0 2px 8px 0 #818cf8' }}>
+            Submit
+          </button>
+          {success && <div className="text-green-600 mt-2 text-center">{success}</div>}
+          {error && <div className="text-red-600 mt-2 text-center">{error}</div>}
+        </form>
+        <div className="w-full">
+          <h2 className="text-2xl font-semibold mb-4 text-center text-slate-800">Feedback Received</h2>
+          {loading ? (
+            <div className="text-center text-slate-500">Loading...</div>
+          ) : (
+            <ul className="space-y-3">
+              {feedback.map((fb) => (
+                <li key={fb._id} className="bg-white/80 backdrop-blur-md shadow rounded-xl p-4 border border-slate-100">
+                  <div className="font-bold text-indigo-700">{fb.name} <span className="text-xs text-slate-400">({fb.email})</span></div>
+                  <div className="text-slate-700 mb-1">{fb.message}</div>
+                  {fb.rating && <div className="text-fuchsia-600 font-semibold">Rating: {fb.rating}</div>}
+                  <div className="text-xs text-slate-400 mt-1">{new Date(fb.createdAt).toLocaleString()}</div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
-          <input name="email" type="email" value={form.email} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Message</label>
-          <textarea name="message" value={form.message} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Rating (1-5)</label>
-          <input name="rating" type="number" min="1" max="5" value={form.rating} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" />
-        </div>
-        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
-        {success && <div className="text-green-600 mt-2">{success}</div>}
-        {error && <div className="text-red-600 mt-2">{error}</div>}
-      </form>
-      <div className="w-full max-w-2xl">
-        <h2 className="text-xl font-semibold mb-2">Feedback Received</h2>
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          <ul>
-            {feedback.map((fb) => (
-              <li key={fb._id} className="bg-white shadow rounded p-4 mb-2">
-                <div className="font-bold">{fb.name} ({fb.email})</div>
-                <div className="text-gray-700">{fb.message}</div>
-                {fb.rating && <div className="text-yellow-600">Rating: {fb.rating}</div>}
-                <div className="text-xs text-gray-400">{new Date(fb.createdAt).toLocaleString()}</div>
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
     </div>
   );
