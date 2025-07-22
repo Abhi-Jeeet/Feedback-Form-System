@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Intro = ({ onStart }) => {
+const Intro = ({ onStart, onAdmin }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-slate-100 to-slate-200 relative overflow-hidden">
       {/* Soft blurred background shape */}
@@ -20,10 +20,17 @@ const Intro = ({ onStart }) => {
         </ul>
         <button
           onClick={onStart}
-          className="px-8 py-2 rounded-full bg-gradient-to-r from-indigo-500 via-blue-400 to-fuchsia-500 text-white font-semibold text-lg shadow-lg hover:scale-105 transition-transform focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 ring-offset-white drop-shadow-glow"
+          className="px-8 py-2 rounded-full bg-gradient-to-r from-indigo-500 via-blue-400 to-fuchsia-500 text-white font-semibold text-lg shadow-lg hover:scale-105 transition-transform focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 ring-offset-white drop-shadow-glow mb-2"
           style={{ boxShadow: '0 0 16px 2px #a5b4fc, 0 2px 8px 0 #818cf8' }}
         >
           Get Started
+        </button>
+        <br />
+        <button
+          onClick={onAdmin}
+          className="mt-2 px-6 py-2 rounded-full border border-indigo-300 text-indigo-700 bg-white/70 font-semibold text-base shadow hover:bg-indigo-50 transition-colors"
+        >
+          Admin
         </button>
       </div>
     </div>
